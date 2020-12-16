@@ -1,21 +1,22 @@
 {% extends 'main_template.html' %}
 
 {% block main %}
-
+<a href="{% url 'login' %}">Login</a>
+<a href="{% url 'logout' %}">Logout</a>
 {{ user }}
     {% for b in books %}
-        <a href="{% url 'book-detail' id=b.id %}"><h1>{{ b.title }}</h1></a>
+        <a href="{% url 'book-detail' slug=b.slug %}"><h1>{{ b.title }}</h1></a>
         <h2>{{ b.date }}</h2>
         <h3>{{ b.text }}</h3>
         <h4>{{ b.authors.all }}</h4>
         {{ b.rate }}
         {% for i in range %}
             {% if b.rate >= i %}
-                <a href="{% url 'add-rate' id=b.id rate=i %}">
+                <a href="{% url 'add-rate' slug=b.slug rate=i %}">
                     <span class="fa fa-star checked"></span>
                 </a>
             {% else %}
-                <a href="{% url 'add-rate' id=b.id rate=i %}">
+                <a href="{% url 'add-rate' slug=b.slug rate=i %}">
                     <span class="fa fa-star"></span>
                 </a>
             {% endif %}
@@ -31,4 +32,11 @@
         <br>
     {% endfor %}
 
+{% if user.is_authenticated %}
+<form action="{% url 'add-book' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="OK">
+</form>
+{% endif %}
 {% endblock %}

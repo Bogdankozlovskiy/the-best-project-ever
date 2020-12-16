@@ -8,11 +8,11 @@
 <h4>{{ book.authors.all }}</h4>
 {% for i in "12345" %}
     {% if rate < i %}
-        <a href="{% url 'add-rate-location' id=book.id rate=i location=1 %}">
+        <a href="{% url 'add-rate-location' slug=book.slug rate=i location=1 %}">
             <span class="fa fa-star"></span>
         </a>
     {% else %}
-        <a href="{% url 'add-rate-location' id=book.id rate=i location=1 %}">
+        <a href="{% url 'add-rate-location' slug=book.slug rate=i location=1 %}">
             <span class="fa fa-star checked"></span>
         </a>
     {% endif %}

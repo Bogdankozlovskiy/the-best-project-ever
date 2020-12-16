@@ -11,7 +11,8 @@ class Book(models.Model):
     title = models.CharField(
         max_length=50,
         verbose_name="название",
-        help_text="ну это типо погоняло книги"
+        help_text="ну это типо погоняло книги",
+        db_index=True
     )
     date = models.DateTimeField(auto_now_add=True, null=True)
     text = models.TextField()
@@ -83,3 +84,14 @@ class LikeCommentUser(models.Model):
         except:
             LikeCommentUser.objects.get(user=self.user, comment=self.comment).delete()
 
+
+class TestTale(models.Model):
+    title = models.CharField(max_length=50, primary_key=True, db_column="title")
+
+
+class TestComment(models.Model):
+    test = models.ForeignKey(TestTale, on_delete=models.CASCADE)
+
+
+class TestComment1(models.Model):
+    test = models.ForeignKey(TestTale, on_delete=models.CASCADE)
