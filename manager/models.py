@@ -24,16 +24,16 @@ class Book(models.Model):
     slug = models.SlugField(primary_key=True)
 
     def __str__(self):
-        return f"{self.title}-{self.id}"
+        return f"{self.title}-{self.slug}"
 
-    # def save(self, **kwargs):
-    #     if self.id is None:
-    #         self.slug = slugify(self.title)
-    #     try:
-    #         super().save(**kwargs)
-    #     except:
-    #         self.slug += str(self.id)
-    #         super().save(**kwargs)
+    def save(self, **kwargs):
+        if self.slug == "":
+            self.slug = slugify(self.title)
+        try:
+            super().save(**kwargs)
+        except:
+            self.slug += str(self.date)
+            super().save(**kwargs)
 
 
 class LikeBookUser(models.Model):
@@ -85,4 +85,10 @@ class LikeCommentUser(models.Model):
             super().save(**kwargs)
         except:
             LikeCommentUser.objects.get(user=self.user, comment=self.comment).delete()
+
+# CRUD
+# create + ;
+# read   + ;
+# update + ;
+# delete + ;
 

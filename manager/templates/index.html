@@ -21,15 +21,15 @@
                 </a>
             {% endif %}
         {% endfor %}
-        {% for comment in b.comments.all %}
-            <h4>{{ comment.text }}</h4>
-            <h5>{{ comment.date }}</h5>
-            <h6>{{ comment.author }}</h6>
-            <a href="{% url 'add-like-to-comment' id=comment.id %}">
-                <h4>Likes: {{ comment.count_like }}</h4>
+        {% if b.is_owner %}
+            <i><input class="btn btn-light" type="button" value="Belarus Lives matter"></i>
+            <a href="{% url 'delete-book' slug=b.slug %}">
+                <i><input class="btn btn-danger" type="button" value="Delete Book"></i>
             </a>
-        {% endfor %}
-        <br>
+            <a href="{% url 'update-book' slug=b.slug %}">
+                <i><input class="btn btn-light" type="button" value="Update Book"></i>
+            </a>
+        {% endif %}
     {% endfor %}
 
 {% if user.is_authenticated %}
