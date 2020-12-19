@@ -1,6 +1,6 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.db.models import Count, Prefetch, Avg, OuterRef, Exists
+from django.db.models import Count, Prefetch, OuterRef, Exists
 from django.shortcuts import render, redirect
 from django.views import View
 from manager.forms import BookForm, CustomAuthenticationForm
