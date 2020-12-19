@@ -21,19 +21,19 @@ class Book(models.Model):
     count_rated_users = models.PositiveIntegerField(default=0)
     count_all_stars = models.PositiveIntegerField(default=0)
     users_like = models.ManyToManyField(User, through="manager.LikeBookUser", related_name="liked_books")
-    slug = models.SlugField(null=True, unique=True)
+    slug = models.SlugField(primary_key=True)
 
     def __str__(self):
         return f"{self.title}-{self.id}"
 
-    def save(self, **kwargs):
-        if self.id is None:
-            self.slug = slugify(self.title)
-        try:
-            super().save(**kwargs)
-        except:
-            self.slug += str(self.id)
-            super().save(**kwargs)
+    # def save(self, **kwargs):
+    #     if self.id is None:
+    #         self.slug = slugify(self.title)
+    #     try:
+    #         super().save(**kwargs)
+    #     except:
+    #         self.slug += str(self.id)
+    #         super().save(**kwargs)
 
 
 class LikeBookUser(models.Model):
@@ -41,7 +41,8 @@ class LikeBookUser(models.Model):
         unique_together = ("user", "book")
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_book_table")
-    book: Book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="liked_user_table")
+    book: Book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, related_name="liked_user_table", null=True)
     rate = models.PositiveIntegerField(default=5)
 
     def save(self, **kwargs):
@@ -62,7 +63,8 @@ class LikeBookUser(models.Model):
 class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="comments")
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, related_name='comments', null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     users_like = models.ManyToManyField(
         User,
@@ -84,14 +86,3 @@ class LikeCommentUser(models.Model):
         except:
             LikeCommentUser.objects.get(user=self.user, comment=self.comment).delete()
 
-
-class TestTale(models.Model):
-    title = models.CharField(max_length=50, primary_key=True, db_column="title")
-
-
-class TestComment(models.Model):
-    test = models.ForeignKey(TestTale, on_delete=models.CASCADE)
-
-
-class TestComment1(models.Model):
-    test = models.ForeignKey(TestTale, on_delete=models.CASCADE)
