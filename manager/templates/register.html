@@ -1,13 +1,13 @@
 {% extends 'main_template.html' %}
 
-{% block login %}
+{% block register %}
 {% for msg in messages %}
     {{ msg }}
 {% endfor %}
-<form action="{% url 'login' %}" method="post">
+
+<form action="{% url 'register' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="OK">
-    <input type="submit" value="OOOOKK">
+    <input type="submit" value="AKE">
 </form>
 {% endblock %}
