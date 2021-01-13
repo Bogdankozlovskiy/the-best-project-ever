@@ -55,10 +55,12 @@ def logout_user(request):
 
 
 class AddLike2Comment(View):
-    def get(self, request, id):
+    def get(self, request, id, location=0):
         if request.user.is_authenticated:
             LikeCommentUser.objects.create(user=request.user, comment_id=id)
-        return redirect("the-main-page")
+        if location == 0:
+            return redirect("the-main-page")
+        return redirect('book-detail', slug=Comment.objects.get(id=id).book.slug)
 
 
 class AddRate2Book(View):

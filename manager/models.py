@@ -1,3 +1,5 @@
+from json import loads, dumps
+
 from django.contrib.auth.models import User
 from django.db import models
 from slugify import slugify
@@ -86,6 +88,22 @@ class LikeCommentUser(models.Model):
         except:
             LikeCommentUser.objects.get(user=self.user, comment=self.comment).delete()
 
+
+class AccountUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="git_hub")
+    github_account = models.CharField(null=True, max_length=100)
+    _github_repos = models.TextField(null=True)
+
+    @property
+    def github_repos(self):
+        if self._github_repos is not None:
+            return loads(self._github_repos)
+        return []
+
+    @github_repos.setter
+    def github_repos(self, value):
+        assert isinstance(value, list), "you can set list only"
+        self._github_repos = dumps(value)
 # CRUD
 # create + ;
 # read   + ;

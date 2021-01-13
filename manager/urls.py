@@ -1,12 +1,13 @@
 from django.urls import path
-
 from manager.oath_views import brazzers_view, brazzers_callback
 from manager.views import MyPage, AddLike2Comment, AddRate2Book, BookDetail, AddBook
 from manager.views import LoginView, logout_user, book_delete, UpdateBook, RegisterView
+from manager.views_ajax import add_like2comment, delete_comment
 
-# http://127.0.0.1:8000/brazzers/github
+
 urlpatterns = [
     path("add_like_to_comment/<int:id>/", AddLike2Comment.as_view(), name="add-like-to-comment"),
+path("add_like_to_comment/<int:id>/<int:location>/", AddLike2Comment.as_view(), name="add-like-to-comment"),
     path("add_rate_to_book/<str:slug>/<int:rate>/", AddRate2Book.as_view(), name="add-rate"),
     path("add_rate_to_book/<str:slug>/<int:rate>/<str:location>/",
          AddRate2Book.as_view(), name="add-rate-location"),
@@ -19,5 +20,7 @@ urlpatterns = [
     path("update_book/<str:slug>/", UpdateBook.as_view(), name='update-book'),
     path("brazzers/", brazzers_view, name="brazzers"),
     path("brazzers/github/", brazzers_callback, name="brazzers_callback"),
+    path("add_like2comment_ajax/", add_like2comment),
+    path("delete_comment_ajax", delete_comment),
     path("", MyPage.as_view(), name="the-main-page"),
 ]
