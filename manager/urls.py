@@ -2,7 +2,7 @@ from django.urls import path
 from manager.oath_views import brazzers_view, brazzers_callback
 from manager.views import MyPage, AddLike2Comment, AddRate2Book, BookDetail, AddBook
 from manager.views import LoginView, logout_user, book_delete, UpdateBook, RegisterView
-from manager.views_ajax import AddLikeComment, DeleteComment, CreateBook
+from manager.views_ajax import AddLikeComment, DeleteComment, CreateBook, CreateToken
 
 urlpatterns = [
     path("add_like_to_comment/<int:id>/", AddLike2Comment.as_view(), name="add-like-to-comment"),
@@ -22,5 +22,6 @@ path("add_like_to_comment/<int:id>/<int:location>/", AddLike2Comment.as_view(), 
     path("add_like2comment_ajax/<int:pk>", AddLikeComment.as_view()),
     path("delete_comment_ajax/<int:pk>", DeleteComment.as_view()),
     path("create_book_ajax/", CreateBook.as_view()),
+    path("create_token/", CreateToken.as_view(), name="create-token"),
     path("", MyPage.as_view(), name="the-main-page"),
 ]
